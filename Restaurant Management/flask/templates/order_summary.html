@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+</head>
+<body>
+    <style>
+        body{
+            font-size: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+    </style>
+
+
+    <h1>Order Summary</h1>
+    <p>Username: {{ username }}</p>
+    <p>Order Number: {{ order_number }}</p>
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+        </tr>
+        {% for item, quantity, unit_price, total_price in order_list %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>{{ quantity }}</td>
+            <td>{{ unit_price }}</td>
+            <td>{{ total_price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3">Total Amount:</td>
+            <td>{{ grand_total }}</td>
+        </tr>
+    </table>
+</body>
+</html>

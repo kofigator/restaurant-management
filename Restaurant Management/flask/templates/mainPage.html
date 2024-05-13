@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+</head>
+<body>
+    <style>
+        body{
+            font-size: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+    </style>
+    <p>WELCOME!!!<br>Who are you?</p>
+    <div>
+        <form action="/login" method="GET">
+            <button type="submit" name="action" style="height: 50px; width: 100px; border-radius: 30%;">STAFF</button>
+        </form>
+        <form action="/customer_page" method="GET">
+            <button type="submit" name="action" style="height: 50px; width: 100px; border-radius: 30%;">CUSTOMER</button>
+        </form>
+    </div>
+    
+</body>
+</html>
