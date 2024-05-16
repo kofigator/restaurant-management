@@ -1,3 +1,4 @@
+<!-- staff_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,30 +7,32 @@
     <title>Staff Page</title>
 </head>
 <body>
-    <style>
-         body{
-            font-size: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        select{
-            height: 50px;
-            width: 500px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 30px;
-        }
-    </style>
-
-    <div>
-        <label for="staff-choice">Choose an option:</label><br>
-        <select name="staff-choice" id="staff-choice">
-            <option value="1">Check last order</option>
-            <option value="2">Check all previous orders</option>
-            <option value="3">Approve orders</option>
-            <option value="4">Report Generation</option>
-        </select>
-    </div>
+    <h1>Order History</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Order Number</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in order_history %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>{{ order[3] }}</td>
+                <td>{{ order[5] }}</td>
+                <td>{{ order[7] }}</td>
+                <td>{{ order[8] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
