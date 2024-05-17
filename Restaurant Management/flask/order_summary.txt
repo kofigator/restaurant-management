@@ -3,3 +3,4 @@ koo_nimo Ord-04539 Tropical-F.Juice, 1, GHS 60.0, GHS 60.0 16/05/2024 09:03
 togbe Ord-08636 Tropical-F.Juice, 1, GHS 60.0, GHS 60.0 16/05/2024 09:0
 chochomucho Ord-38889 Tropical-F.Juice, 1, GHS 60.0, GHS 60.0 16/05/2024 09:04
 chochomucho Ord-38889 Beef-Roll, 2, GHS 20.0, GHS 40.0 16/05/2024 09:04
+Akooo, Ord-78523, Sandwich, 2, GHS 30.0, GHS 60.0, 17/05/2024 18:38
