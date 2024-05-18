@@ -1,3 +1,4 @@
+<!-- staff_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,30 +7,92 @@
     <title>Staff Page</title>
 </head>
 <body>
-    <style>
-         body{
-            font-size: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        select{
-            height: 50px;
-            width: 500px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 30px;
-        }
-    </style>
+    <h1>Order History</h1>
+    <!-- Dropdown menu -->
+    <label for="report_type">Select Report Type:</label>
+    <select id="report_type" onchange="generateReport()">
+        <option value="all_orders">All Orders</option>
+        <option value="today_orders">Today's Orders</option>
+        <option value="yesterday_orders">Yesterday's Orders</option>
+        <option value="last_month_orders">Last Month's Orders</option>
+    </select>
 
-    <div>
-        <label for="staff-choice">Choose an option:</label><br>
-        <select name="staff-choice" id="staff-choice">
-            <option value="1">Check last order</option>
-            <option value="2">Check all previous orders</option>
-            <option value="3">Approve orders</option>
-            <option value="4">Report Generation</option>
-        </select>
-    </div>
+    <!-- Table to display order history -->
+    <table id="order_table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Order Number</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in order_history %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>{{ order[3] }}</td>
+                <td>{{ order[5] }}</td>
+                <td>{{ order[7] }}</td>
+                <td>{{ order[8] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- JavaScript to handle dynamic report generation -->
+    <script>
+        function generateReport() {
+            var reportType = document.getElementById("report_type").value;
+            var tableRows = document.querySelectorAll("#order_table tbody tr");
+            var currentDate = new Date();
+
+            // Hide all rows initially
+            tableRows.forEach(function(row) {
+                row.style.display = "none";
+            });
+
+            // Show rows based on report type
+            if (reportType === "all_orders") {
+                tableRows.forEach(function(row) {
+                    row.style.display = "table-row";
+                });
+            } else if (reportType === "today_orders") {
+                var today = currentDate.toISOString().slice(0,10);
+                tableRows.forEach(function(row) {
+                    if (row.cells[6].textContent.includes(today)) {
+                        row.style.display = "table-row";
+                    }
+                });
+            } else if (reportType === "yesterday_orders") {
+                var yesterday = new Date(currentDate);
+                yesterday.setDate(yesterday.getDate() - 1);
+                yesterday = yesterday.toISOString().slice(0,10);
+                tableRows.forEach(function(row) {
+                    if (row.cells[6].textContent.includes(yesterday)) {
+                        row.style.display = "table-row";
+                    }
+                });
+            } else if (reportType === "last_month_orders") {
+                var lastMonth = new Date(currentDate);
+                lastMonth.setMonth(lastMonth.getMonth() - 1);
+                var firstDayLastMonth = new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1);
+                var lastDayLastMonth = new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0);
+                firstDayLastMonth = firstDayLastMonth.toISOString().slice(0,10);
+                lastDayLastMonth = lastDayLastMonth.toISOString().slice(0,10);
+                tableRows.forEach(function(row) {
+                    var orderDate = row.cells[6].textContent.split(' ')[0];
+                    if (orderDate >= firstDayLastMonth && orderDate <= lastDayLastMonth) {
+                        row.style.display = "table-row";
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>

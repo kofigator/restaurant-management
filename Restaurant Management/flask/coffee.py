@@ -18,6 +18,7 @@ def calculate_total(order_list):
 
 order_list = []  # Define order_list as an empty list
 
+
 # @app.route('/')
 # def index():
 #     return render_template('index.html')
@@ -84,7 +85,7 @@ def mainPage():
 #     return render_template('staff_page.html')
 
 users = {
-    "staff1": "password1",
+    "admin": "admin",
     "staff2": "password2",
     "staff3": "password3"
 }
@@ -104,7 +105,13 @@ def login():
 
 @app.route('/staff_page')
 def staff_page():
-    return render_template('staff_page.html')
+    order_history = []
+    with open("C:/Users/user/Desktop/repo/restaurant-management/Restaurant Management/flask/order_summary.txt", "r") as file:
+        for line in file:
+            order_history.append(line.strip().split(' '))
+    return render_template('staff_page.html', order_history=order_history)
+
+
 
 
 @app.route('/customer_page')
@@ -165,9 +172,9 @@ def order():
 
 
         #to file
-        with open("C:/Users/user/Desktop/Py/area/order_summary.txt", "a") as to_File:
+        with open("C:/Users/user/Desktop/repo/restaurant-management/Restaurant Management/flask/order_summary.txt", "a") as to_File:
             for item, quantity, unit_price, total_price in order_list:
-                to_File.write(f"{username} {order_number} {item}, {quantity}, GHS {unit_price}, GHS {total_price} {datetime.now().strftime('%d/%m/%Y %H:%M')}\n")
+                to_File.write(f"{username}, {order_number}, {item}, {quantity}, GHS {unit_price}, GHS {total_price}, {datetime.now().strftime('%d/%m/%Y %H:%M')}\n")
             
         return render_template('order_summary.html', order_list=order_list, grand_total=grand_total, order_number=order_number, username=username)
 
