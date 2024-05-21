@@ -106,7 +106,7 @@ def login():
 @app.route('/staff_page')
 def staff_page():
     order_history = []
-    with open("C:/Users/user/Desktop/repo/restaurant-management/Restaurant Management/flask/order_summary.txt", "r") as file:
+    with open(r"C:\Users\user\restaurant-management\restaurant-management\Restaurant Management\flask\order_summary.txt", "r") as file:
         for line in file:
             order_history.append(line.strip().split(' '))
     return render_template('staff_page.html', order_history=order_history)
@@ -129,26 +129,26 @@ def order():
         "1": "Coffee",
         "2": "Cappuccino",
         "3": "Tea",
-        "4": "Hot Chocolate",
-        "5": "Tropical F.Juice",
-        "6": "Beef Roll",
-        "7": "Meat Pie",
+        "4": "Hot-Chocolate",
+        "5": "Tropical-F.Juice",
+        "6": "Beef-Roll",
+        "7": "Meat-Pie",
         "8": "Sandwich",
         "9": "Cupcake",
-        "10": "Spring Roll",
+        "10": "Spring-Roll",
     }
     item = menu[choice]
     price = {
         "Coffee": 30.00,
         "Cappuccino": 50.00,
         "Tea": 40.00,
-        "Hot Chocolate": 35.00,
-        "Tropical F.Juice": 60.00,
-        "Beef Roll": 20.00,
-        "Meat Pie": 10.00,
+        "Hot-Chocolate": 35.00,
+        "Tropical-F.Juice": 60.00,
+        "Beef-Roll": 20.00,
+        "Meat-Pie": 10.00,
         "Sandwich": 30.00,
         "Cupcake": 25.00,
-        "Spring Roll": 15.00,
+        "Spring-Roll": 15.00,
     }[item]
     total_price = price * quantity
 
@@ -172,9 +172,9 @@ def order():
 
 
         #to file
-        with open("C:/Users/user/Desktop/repo/restaurant-management/Restaurant Management/flask/order_summary.txt", "a") as to_File:
+        with open(r"C:\Users\user\restaurant-management\restaurant-management\Restaurant Management\flask\order_summary.txt", "a") as to_File:
             for item, quantity, unit_price, total_price in order_list:
-                to_File.write(f"{username}, {order_number}, {item}, {quantity}, GHS {unit_price}, GHS {total_price}, {datetime.now().strftime('%d/%m/%Y %H:%M')}\n")
+                to_File.write(f"{username}, {order_number}, {item}, {quantity}, GHS {unit_price}, GHS {total_price}, {datetime.now().strftime('%Y/%m/%d %H:%M')}\n")
             
         return render_template('order_summary.html', order_list=order_list, grand_total=grand_total, order_number=order_number, username=username)
 
