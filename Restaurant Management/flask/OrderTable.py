@@ -7,8 +7,8 @@ cursor = connection.cursor()
 cursor.execute(
 
     """CREATE TABLE Orders(
-        OderID varchar(255) primary key,
         UserName Varchar(255),
+        OrderID varchar(255) primary key,
         Item varchar(255), 
         Quantity Varchar(255),
         unitPrice flaot,

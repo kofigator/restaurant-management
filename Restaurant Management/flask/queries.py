@@ -3,14 +3,14 @@ from flask import g
 import sqlite3
 from datetime import datetime, timedelta
 from datetime import date
-def addorder(orderID, username, item, Quqntity, unitPrice, TotalPrice):
+def addorder(orderID, username, item, Quantity, unitPrice, TotalPrice):
 
     connection = sqlite3.connect('Order.db', check_same_thread=False)
     cursor = connection.cursor()
 
     cursor.execute(
-        """INSERT INTO Orders(OderID, UserName, Item, Quantity, unitPrice, TotalPrice)
-        VALUES('{orderID}', '{username}', '{item}', '{Quqntity}', '{unitPrice}', '{TotalPrice}');""".format(orderID=orderID, username=username, item=item, Quqntity=Quqntity, unitPrice=unitPrice, TotalPrice= TotalPrice)
+        """INSERT INTO Orders(OrderID, UserName, Item, Quantity, unitPrice, TotalPrice)
+        VALUES('{orderID}', '{username}', '{item}', '{Quantity}', '{unitPrice}', '{TotalPrice}');""".format(orderID=orderID, username=username, item=item, Quantity=Quantity, unitPrice=unitPrice, TotalPrice= TotalPrice)
 
     )
     connection.commit()
