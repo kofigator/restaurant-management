@@ -1,34 +1,124 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Login</title>
-        </head>
-        <body>
-            <style>
-                body{
-                    font-size: 40px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-                
-                input{
-                    height: 50px;
-                    width: 200px;
-                    border-radius: 10px;
-                    margin-top: 20px;
-                }
-                
-            </style>
+<html lang="en">
 
-            <h1>Login</h1>
-            <div>
-                <form method="post">
-                    <input type="text" name="username" placeholder="Username" required><br>
-                    <input type="password" name="password" placeholder="Password" required><br>
-                    <input type="submit" value="Login">
-                </form>
-            </div>
-        </body>
-    </html>
- 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        nav {
+            width: 100%;
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f0e5d8;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        h1 {
+            color: #5c3d2e;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            height: 50px;
+            width: 300px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-size: 18px;
+        }
+
+        input[type="submit"] {
+            height: 50px;
+            width: 150px;
+            border-radius: 10px;
+            background-color: #5c3d2e;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3e281d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+        </ul>
+    </nav>
+
+    <h1>Login</h1>
+    <div>
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+</body>
+
+</html>

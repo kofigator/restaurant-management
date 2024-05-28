@@ -1,29 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
-</head>
-<body>
     <style>
-        body{
-            font-size: 80px;
+        body {
+            font-size: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 5px;
+            color: #fff;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #09ed6f, #6c09c8);
         }
-        
+
+        nav {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 24px;
+            color: #97562f;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 1%;
+            height: 100%;
+            margin-top: 80px;
+            /* Adjust based on nav height */
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
     </style>
-    <p>WELCOME!!!<br>Who are you?</p>
-    <div>
-        <form action="/login" method="GET">
-            <button type="submit" name="action" style="height: 50px; width: 100px; border-radius: 30%;">STAFF</button>
-        </form>
-        <form action="/customer_page" method="GET">
-            <button type="submit" name="action" style="height: 50px; width: 100px; border-radius: 30%;">CUSTOMER</button>
-        </form>
-    </div>
-    
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/login">Staff</a></li>
+            <li><a href="/customer_page">Customer</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>WELCOME TO SUPREME COFFIEE!!!</h1>
+        <p>Your ultimate destination for premium coffee delivered right to your doorstep!
+            Dive into the world of exceptional coffee without leaving the comfort of your home.
+            At SUPREME COFFEE, we're passionate about bringing you the finest beans sourced from around the globe
+            and expertly roasted to perfection
+            Explore our curated selection of single-origin coffees, signature blends, and specialty brews, all available
+            for convenient online ordering.
+            Whether you're craving a rich espresso, a smooth latte, or a refreshing cold brew, we've got you covered.
+            Join us on a journey of flavor and convenience, and elevate your coffee experience with every sip from
+            SUPREME COFFEE
+
+        </p>
+    </main>
+
 </body>
+
 </html>

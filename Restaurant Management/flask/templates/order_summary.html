@@ -1,44 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Summary</title>
-</head>
-<body>
     <style>
-        body{
-            font-size: 40px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px;
+            margin: 0;
         }
-        
-    </style>
 
+        nav {
+            width: 100%;
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f0e5d8;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        h1 {
+            color: #5c3d2e;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #5c3d2e;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0e5d8;
+        }
+
+        tr:hover {
+            background-color: #f5e6dc;
+        }
+
+        tr:last-child td {
+            font-weight: bold;
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="/customer_page">BACK</a></li>
+        </ul>
+    </nav>
 
     <h1>Order Summary</h1>
     <p>Username: {{ username }}</p>
     <p>Order Number: {{ order_number }}</p>
-    <table border="1">
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-        </tr>
-        {% for item, quantity, unit_price, total_price in order_list %}
-        <tr>
-            <td>{{ item }}</td>
-            <td>{{ quantity }}</td>
-            <td>{{ unit_price }}</td>
-            <td>{{ total_price }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="3">Total Amount:</td>
-            <td>{{ grand_total }}</td>
-        </tr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item, quantity, unit_price, total_price in order_list %}
+            <tr>
+                <td>{{ item }}</td>
+                <td>{{ quantity }}</td>
+                <td>{{ unit_price }}</td>
+                <td>{{ total_price }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3">Total Amount:</td>
+                <td>{{ grand_total }}</td>
+            </tr>
+        </tbody>
     </table>
 </body>
+
 </html>

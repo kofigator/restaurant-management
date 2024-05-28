@@ -1,27 +1,118 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Shop</title>
-</head>
-<body>
     <style>
-        body{
-            font-size: 50px;
+        body {
+            font-size: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
         }
-        button{
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 36px;
+            color: #5c3d2e;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #5c3d2e;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f0e5d8;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #5c3d2e;
+            color: white;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        button {
             height: 50px;
             width: 200px;
             border-radius: 30px;
+            background-color: #5c3d2e;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        
-    </style>
 
+        button:hover {
+            background-color: #3e281d;
+        }
+
+        button+button {
+            margin-left: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+{{orderdate}}
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="/home">Home</a></li>
+        </ul>
+    </nav>
 
     <h1>Welcome to Our Coffee Shop!</h1>
     <form action="/order" method="post">
@@ -30,7 +121,8 @@
 
         <!-- Menu Options -->
         <label for="choice">Choose an item:</label>
-        <select id="choice" name="choice">
+        <select id="choice" name="choice" required>
+            <option hidden>Choose Item</option>
             <option value="1">Coffee - GHS 30.00</option>
             <option value="2">Cappuccino - GHS 50.00</option>
             <option value="3">Tea - GHS 40.00</option>
@@ -46,8 +138,11 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" required><br><br>
 
-        <button type="submit" name="action" value="add_to_cart">Add to Cart</button>
-        <button type="submit" name="action" value="checkout">Checkout</button>
+        <div class="button-group">
+            <button type="submit" name="action" value="add_to_cart">Add to Cart</button>
+            <button type="submit" name="action" value="checkout">Checkout</button>
+        </div>
     </form>
 </body>
+
 </html>
