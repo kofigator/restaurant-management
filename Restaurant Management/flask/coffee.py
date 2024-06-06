@@ -1,16 +1,13 @@
-# coffee.py
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import queries   # type: ignore
-# import random
-# import string
-from datetime import datetime, date
+from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Set a secret key for session management
 
 def generate_random_order_number():
     orderdate = datetime.now()
     anydate = datetime.strftime(orderdate, '%d%M%S')
-
     return anydate
 
 def calculate_total(order_list):
@@ -19,17 +16,9 @@ def calculate_total(order_list):
         total += total_price
     return total
 
-order_list = []  
-
 @app.route('/home')
 def mainPage():
-   
-     return render_template('mainPage.html')
-    
-
-# @app.route('/staff_page')
-# def staff_page():
-#     return render_template('staff_page.html')
+    return render_template('mainPage.html')
 
 users = {
     "admin": "admin",
@@ -43,50 +32,53 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if username in users and users[username] == password:
-          
             return redirect(url_for('staff_page'))
         else:
             return "Invalid credentials. Please try again."
-
     return render_template('login.html')
 
-@app.route('/staff_page', methods = ['POST', 'GET'])
+@app.route('/staff_page', methods=['POST', 'GET'])
 def staff_page():
-   if request.method == 'POST':
-        choice = request.form['action']
-        if request.form['action'] == "all_orders":
-             result = queries.display_order()
-            #  orderdict ={}
-            #  for OrderID, username, items, quantity, unit_price, total_price, date in result:
-            #         orderdick.setdefault(OrderID, []).append(username)
-             return render_template('staff_page.html', message =  result)
-        elif request.form['action'] == "today_orders":
-                result = queries.displayToday_Order()
-                return render_template('staff_page.html', message =  result)
-        elif request.form['action'] == "yesterday_orders":
-                result = queries.yesterday_Order()
-                return render_template('staff_page.html', message =  result)
-        elif request.form['Date']:
-                domyDate = request.form.get('Date')
-                date = datetime.strptime(domyDate, '%Y-%m-%d')
-                Date = date.strftime('%Y-%m-%d')
-                
-                result = queries.date_Order(Date)
-                return render_template('staff_page.html', message =  result)
-   return render_template('staff_page.html')
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == "all_orders":
+            result = queries.display_order()
+            return render_template('staff_page.html', message=result)
+        elif action == "today_orders":
+            result = queries.displayToday_Order()
+            return render_template('staff_page.html', message=result)
+        elif action == "yesterday_orders":
+            result = queries.yesterday_Order()
+            return render_template('staff_page.html', message=result)
+        elif 'Date' in request.form:
+            date_input = request.form.get('Date')
+            if date_input:  # Check if date input is provided
+                try:
+                    date = datetime.strptime(date_input, '%Y-%m-%d').strftime('%Y-%m-%d')
+                    result = queries.date_Order(date)
+                    return render_template('staff_page.html', message=result)
+                except ValueError:
+                    return render_template('staff_page.html', message="Invalid date format. Please use YYYY-MM-DD.")
+            else:
+                return render_template('staff_page.html', message="Please provide a date.")
+    return render_template('staff_page.html')
 
-
-
-
-@app.route('/customer_page')
+@app.route('/customer_page', methods=['GET', 'POST'])
 def customer_page():
-     
-    return render_template('customer_page.html')
-
+    if request.method == 'POST':
+        action = request.form['action']
+        if action == 'add_to_cart':
+            session['username'] = request.form['username']
+        return redirect(url_for('order'))
+    return render_template('customer_page.html', username=session.get('username'))
 
 @app.route('/order', methods=['POST'])
 def order():
-    username = request.form['username']
+    username = session.get('username')
+    if not username:
+        username = request.form['username']
+        session['username'] = username
+
     choice = request.form.get('choice')
     quantity = int(request.form['quantity'])
 
@@ -117,39 +109,32 @@ def order():
     }[item]
     total_price = price * quantity
 
+    order_list = session.get('order_list', [])
+    order_list.append((item, quantity, price, total_price))
+    session['order_list'] = order_list  # Update session with the new order list
+
     if request.form['action'] == 'add_to_cart':
-        # Add the item to the cart list
-        order_list.append((item, quantity, price, total_price))
-        # Redirect back to the index page
         return redirect(url_for('customer_page'))
 
     elif request.form['action'] == 'checkout':
-        # Handle checkout process
-        order_list.append((item, quantity, price, total_price))
         order_number = generate_random_order_number()
-        total_price = calculate_total(order_list)
-        
-        grand_total = 0  # Initialize the grand total
+        grand_total = calculate_total(order_list)
 
-        # Loop through each order
         for item, quantity, unit_price, total_price in order_list:
-            grand_total += total_price  # Accumulate the total price
-
-
-        #to file
-
-            for item, quantity, unit_price, total_price in order_list:
-                queries.addorder(order_number, username, item, quantity, unit_price, total_price)
+            queries.addorder(order_number, username, item, quantity, unit_price, total_price)
         
-       
+        order_summary = {
+            'order_list': order_list,
+            'grand_total': grand_total,
+            'order_number': order_number,
+            'username': username
+        }
 
-        return render_template('order_summary.html', order_list=order_list, grand_total=grand_total, order_number=order_number, username=username )
+        session.pop('order_list', None)  # Clear the order list from session after checkout
+        session.pop('username', None)  # Clear the session after checkout
+        return render_template('order_summary.html', **order_summary)
 
-
-
-
-    # Redirect or render appropriate page
+    return redirect(url_for('customer_page'))
 
 if __name__ == "__main__":
     app.run(debug=True)
- 

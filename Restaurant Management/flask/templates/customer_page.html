@@ -105,8 +105,6 @@
         }
     </style>
 </head>
-{{orderdate}}
-
 <body>
     <nav>
         <ul>
@@ -114,10 +112,14 @@
         </ul>
     </nav>
 
-    <h1>Welcome to Our Coffee Shop!</h1>
+    <h1>Welcome to Supreme Coffee Shop!</h1>
     <form action="/order" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        {% if not username %}
+            <label for="username">Name of Customer</label>
+            <input type="text" id="username" name="username" required><br><br>
+        {% else %}
+            <p>Username {{ username }}</p>
+        {% endif %}
 
         <!-- Menu Options -->
         <label for="choice">Choose an item:</label>

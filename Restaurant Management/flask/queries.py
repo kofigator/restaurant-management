@@ -1,80 +1,86 @@
-
 from flask import g
 import sqlite3
-from datetime import datetime, timedelta
-from datetime import date
-def addorder(orderID, username, item, Quqntity, unitPrice, TotalPrice):
+from datetime import datetime, timedelta, date
 
-    connection = sqlite3.connect('Order.db', check_same_thread=False)
+DATABASE = 'Order.db'
+
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect(DATABASE, check_same_thread=False)
+    return g.db
+
+def close_db(e=None):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
+
+def addorder(orderID, username, item, quantity, unitPrice, totalPrice):
+    connection = get_db()
     cursor = connection.cursor()
-
-    cursor.execute(
-        """INSERT INTO Orders(OderID, UserName, Item, Quantity, unitPrice, TotalPrice)
-        VALUES('{orderID}', '{username}', '{item}', '{Quqntity}', '{unitPrice}', '{TotalPrice}');""".format(orderID=orderID, username=username, item=item, Quqntity=Quqntity, unitPrice=unitPrice, TotalPrice= TotalPrice)
-
-    )
-    connection.commit()
-    cursor.close()
-    connection.close()
-
+    try:
+        cursor.execute(
+            """
+            INSERT INTO Orders(OrderID, Username, Item, Quantity, UnitPrice, TotalPrice, LogDate)
+            VALUES(?, ?, ?, ?, ?, ?, ?)
+            """,
+            (orderID, username, item, quantity, unitPrice, totalPrice, datetime.now().strftime('%Y-%m-%d'))
+        )
+        connection.commit()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cursor.close()
 
 def display_order():
-    connection = sqlite3.connect('Order.db', check_same_thread=False)
-    # connection.row_factory = sqlite3.Row
+    connection = get_db()
     cursor = connection.cursor()
-
-    cursor.execute(
-        """SELECT * FROM Orders;"""
-
-    )
-    result = cursor.fetchall()
-    connection.commit()
-    cursor.close()
-    connection.close()
+    try:
+        cursor.execute("""SELECT * FROM Orders;""")
+        result = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        result = []
+    finally:
+        cursor.close()
     return result
+
 def displayToday_Order():
-    today = date.today()
-    connection = sqlite3.connect('Order.db', check_same_thread=False)
-    connection.row_factory = sqlite3.Row
+    today = date.today().strftime('%Y-%m-%d')
+    connection = get_db()
     cursor = connection.cursor()
-
-    cursor.execute(
-        """SELECT * FROM Orders where DATE(log_date) = '{today}';""".format(today = today)
-
-    )
-    result = cursor.fetchall()
-    connection.commit()
-    cursor.close()
-    connection.close()
+    try:
+        cursor.execute("""SELECT * FROM Orders WHERE DATE(LogDate) = ?;""", (today,))
+        result = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        result = []
+    finally:
+        cursor.close()
     return result
+
 def yesterday_Order():
-    yesterday = (datetime.now()-timedelta(1)).strftime('%Y-%m-%d')
-    connection = sqlite3.connect('Order.db', check_same_thread=False)
-    connection.row_factory = sqlite3.Row
+    yesterday = (datetime.now() - timedelta(1)).strftime('%Y-%m-%d')
+    connection = get_db()
     cursor = connection.cursor()
-
-    cursor.execute(
-        """SELECT * FROM Orders where DATE(log_date) = '{yesterday}';""".format(yesterday = yesterday)
-
-    )
-    result = cursor.fetchall()
-    connection.commit()
-    cursor.close()
-    connection.close()
+    try:
+        cursor.execute("""SELECT * FROM Orders WHERE DATE(LogDate) = ?;""", (yesterday,))
+        result = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        result = []
+    finally:
+        cursor.close()
     return result
 
 def date_Order(Date):
-    connection = sqlite3.connect('Order.db', check_same_thread=False)
-    connection.row_factory = sqlite3.Row
+    connection = get_db()
     cursor = connection.cursor()
-
-    cursor.execute(
-        """SELECT * FROM Orders where DATE(log_date) = '{Date}';""".format(Date = Date)
-
-    )
-    result = cursor.fetchall()
-    connection.commit()
-    cursor.close()
-    connection.close()
+    try:
+        cursor.execute("""SELECT * FROM Orders WHERE DATE(LogDate) = ?;""", (Date,))
+        result = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        result = []
+    finally:
+        cursor.close()
     return result
-    
